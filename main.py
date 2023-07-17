@@ -18,11 +18,11 @@ except OSError as e:
     if e.errno != errno.EEXIST:
         raise
 
-db_name = ''
-db_host = ''
-db_port = 5411
-db_user = ''
-db_password = ''
+db_name = 'sistema'
+db_host = 'localhost'
+db_port = 5433
+db_user = 'postgres'
+db_password = '123123'
 java_var = []
 prefix = ""
 
@@ -31,9 +31,10 @@ class DataBase:
     def __init__(self) -> None:
         self.connection = psycopg2.connect(
             host=db_host,
-            password='',
+            password=db_password,
             port=db_port,
-            database=db_name
+            database=db_name,
+            user=db_user
         )
 
         self.cursor = self.connection.cursor()
@@ -82,7 +83,7 @@ for t in db_tables:
         if c[7] == 'integer' or c[7] == 'smallint':
             java_var_detail['type'] = 'int'
             java_var_detail['value'] = column_temp
-        elif c[7] == 'character' or c[7] == 'text':
+        elif c[7] == 'character varying' or c[7] == 'text':
             java_var_detail['type'] = 'String'
             java_var_detail['value'] = column_temp
         elif c[7] == 'timestamp without time zone':
